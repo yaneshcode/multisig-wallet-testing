@@ -34,13 +34,13 @@ contract("MultiSigWallet", function (accounts) {
       const oldOwner = accounts[0];
       const newOwnersList = [accounts[4], accounts[1], accounts[2]];
 
-      await this.contract.replaceOwner(oldOwner, newOwner, { from: accounts[0] });
+      await this.contract.replaceOwner(oldOwner, newOwner, { from: this.contract.address });
 
       console.log("new owners:", newOwnersList.toString());
 
       assert.equal(
-        (await this.contract.owners()),
-        newOwnersList,
+        (await this.contract.owners(0)),
+        newOwner,
         "New owners list are not expected addresses."
       );
     });
