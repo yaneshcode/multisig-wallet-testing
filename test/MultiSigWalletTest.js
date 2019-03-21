@@ -20,29 +20,29 @@ contract("MultiSigWallet", function (accounts) {
     it("Should have owner addresses be same addresses when created wallet", async function() {
       const owners = [accounts[0], accounts[1], accounts[2]];
 
+      console.log("initial owners:", owners.toString());
+
       assert.equal(
-        (await this.contract.owners()),
-        owners,
+        (await this.contract.owners(0)),
+        accounts[0],
         "Initial owners are not expected addresses."
       );
     });
 
     it("Should replace owner", async function() {
-      // const owner = accounts[0];
-      // const writer = accounts[1];
-      //
-      // console.log("Owner: " + accounts[0]);
-      // console.log("Writer: " + accounts[1]);
-      //
-      // await this.callee.setWriter(this.caller.address, { from: accounts[0] });
-      //
-      // console.log(`Address of writer: ${await this.callee.writer()}`);
-      //
-      // assert.equal(
-      //   (await this.callee.writer()),
-      //   this.caller.address,
-      //   "Writer is not expected address"
-      // );
+      const newOwner = accounts[4];
+      const oldOwner = accounts[0];
+      const newOwnersList = [accounts[4], accounts[1], accounts[2]];
+
+      await this.contract.replaceOwner(oldOwner, newOwner, { from: accounts[0] });
+
+      console.log("new owners:", newOwnersList.toString());
+
+      assert.equal(
+        (await this.contract.owners()),
+        newOwnersList,
+        "New owners list are not expected addresses."
+      );
     });
 
   });
